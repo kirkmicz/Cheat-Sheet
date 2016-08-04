@@ -1,4 +1,4 @@
-# Installing nginx on UBUNTU 04.14 LTS
+# Installing nginx on UBUNTU 14.04 LTS
 
 - Firstly update the repository
 
