@@ -52,7 +52,7 @@
 
 * Configuring HTTP Basic Authentication Credentials, So we will now create the password.
 
-   `$ sudo yum install -y httpd-tools`
+   `$ sudo htpasswd -c /etc/nginx/.htpasswd nginx`
    
 * Check the contents of newly-created file
   
