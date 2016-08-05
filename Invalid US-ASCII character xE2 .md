@@ -28,6 +28,7 @@
 > - Execute this command to see the result.
   
 >  `locale`
+
 > **Note:** either of the two the result should most likely like this
 
 >  ```
