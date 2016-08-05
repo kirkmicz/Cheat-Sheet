@@ -94,6 +94,11 @@ Enter file in which to save the key (/Users/localuser/.ssh/id_rsa):
   - PasswordAuthentication `no`
   
   - ChallengeResponseAuthentication `no`
+
+5. Then reload `sshd`
+
+  - `systemctl reload sshd`
+
   
   
   
