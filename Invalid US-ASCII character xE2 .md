@@ -32,7 +32,7 @@
 > **Note:** either of the two the result should most likely like this
 
 >  ```
->  LANG=en_US.UTF-8
+> LANG=en_US.UTF-8
 >LC_CTYPE="en_US.UTF-8"
 >LC_NUMERIC="en_US.UTF-8"
 >LC_TIME="en_US.UTF-8"
