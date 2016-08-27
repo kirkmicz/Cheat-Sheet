@@ -42,10 +42,12 @@ $ alternatives --install /usr/bin/scalap scalap /opt/scala/bin/scalap 2
 
 
 **Or Just**
-    sudo apt-get remove scala-library scala
-    wget http://www.scala-lang.org/files/archive/scala-2.11.6.deb
-    sudo dpkg -i scala-2.11.6.deb
-    sudo apt-get update
-    sudo apt-get install scala
+```
+sudo apt-get remove scala-library scala
+wget http://www.scala-lang.org/files/archive/scala-2.11.6.deb
+sudo dpkg -i scala-2.11.6.deb
+sudo apt-get update
+sudo apt-get install scala
+```
 
 For more info visit this site [click] (http://backtobazics.com/scala/4-steps-to-setup-scala-on-centos/)
