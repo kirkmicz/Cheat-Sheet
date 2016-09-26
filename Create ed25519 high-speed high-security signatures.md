@@ -1,4 +1,4 @@
-# Create ed25519 high-speed high-security signatures
+# Create ed25519 high-speed high-security signatures (Ubuntu/Centos)
 
 * Go to the ssh folder
 	
