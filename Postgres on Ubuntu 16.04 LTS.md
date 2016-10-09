@@ -13,4 +13,5 @@
 
 
 * To access postgres
+
 	`$ sudo su - postgres`
