@@ -7,6 +7,7 @@
 * Install Postgres Client
 
 	`$ apt-get install postgresql-client`
+	
 	`$ sudo apt-get install --reinstall postgresql-9.5`
 
 
