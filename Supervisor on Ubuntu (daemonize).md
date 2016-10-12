@@ -1,4 +1,4 @@
-# Supervisor on Ubuntu 14.04.3 LTS
+# Supervisor on Ubuntu (daemonize) 14.04.3 LTS
 
 **Install supervisor**
 	
