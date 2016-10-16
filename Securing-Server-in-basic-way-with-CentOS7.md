@@ -101,7 +101,7 @@ Enter file in which to save the key (/Users/localuser/.ssh/id_rsa):
 
   
   
-  
+![alt text](https://avatars3.githubusercontent.com/u/6651513?v=3&s=400 "Kirkmicz")
   
   
 > So we're done! This is a short tutorial only. you can visit or click this [link] (https://www.digitalocean.com/community/tutorials/initial-server-setup-with-centos-7) for more info.
