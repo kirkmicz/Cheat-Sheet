@@ -50,4 +50,10 @@ sudo apt-get update
 sudo apt-get install scala
 ```
 
+![alt text](https://avatars3.githubusercontent.com/u/6651513?v=3&s=400 "Kirkmicz")
+
+
+*Thats it.. Thanks!*
+
+
 For more info visit this site [click] (http://backtobazics.com/scala/4-steps-to-setup-scala-on-centos/)
