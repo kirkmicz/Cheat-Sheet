@@ -35,7 +35,7 @@ C:\xampp\htdocs\laravel> laravel new blog
 wait until all dependencies are installed and after that you have now laravel project named blog.
 
 
-# One thing left (but maybe this is optional)
+# One thing left
 ### With php artisan
 If you have PHP installed locally and you would like to use PHP's built-in development server to serve your application, you may use the serve Artisan command. This command will start a development server at `http://localhost:8000`.
 ```sh
