@@ -65,7 +65,7 @@ Now lets modify the `C:\Windows\System32\drivers\etc\hosts` file add the ff. lin
 127.0.0.1    blog.dev
 ```
 
-Done. you can access it with this url `http://simple.dev/`
+Done. you can access it with this url `http://blog.dev/`
 
 
 ![alt text](https://avatars3.githubusercontent.com/u/6651513?v=3&s=400 "Kirkmicz")
