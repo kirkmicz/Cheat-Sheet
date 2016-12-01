@@ -85,4 +85,6 @@
 
 * Other devs are not using `firewalld` in some cases nginx `reverse_proxy` cannot serve as expected because SELinux is preventing the connection as there is no policy allowing the connection. Therefore we need to tell SELinux to allow that.
 
+* To run this in root account
+
 `$ setsebool -P httpd_can_network_connect true`
