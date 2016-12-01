@@ -53,11 +53,11 @@
 * Configuring HTTP Basic Authentication Credentials, So we will now create the password.
 
    `$ sudo htpasswd -c /etc/nginx/.htpasswd nginx`
-   
+
 * Check the contents of newly-created file
-  
+
    `$ cat /etc/nginx/.htpasswd`
-   
+
 * It will look like this
 
    `nginx:$apr1$QmjTfXYI$LJiJyGlzE6vQXLVBLgSpY/`
@@ -79,3 +79,10 @@
 * Reload nginx
 
   `$ sudo systemctl reload nginx`
+
+
+## Cannot Reverse Proxy
+
+* Other devs are not using `firewalld` in some cases nginx `reverse_proxy` cannot serve as expected because SELinux is preventing the connection as there is no policy allowing the connection. Therefore we need to tell SELinux to allow that.
+
+`$ setsebool -P httpd_can_network_connect true`
