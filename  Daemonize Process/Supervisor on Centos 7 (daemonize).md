@@ -13,7 +13,7 @@
 
   * With Internet and Setup tools
 
-      `sudo easy_install supervisor`
+    `sudo easy_install supervisor`
 
   * With Internet but without Setup tools you need to have root permision to invoke this command
 
@@ -24,9 +24,9 @@
 
     __Need to Download__
 
-       * setuptools (latest) from <http://pypi.python.org/pypi/setuptools>.
-     * meld3 (latest) from <http://www.plope.com/software/meld3/>.
-     * elementtree (latest) from <http://effbot.orgdownloads#elementtree>.
+    * setuptools (latest) from <http://pypi.python.org/pypi/setuptools>.
+    * meld3 (latest) from <http://www.plope.com/software/meld3/>.
+    * elementtree (latest) from <http://effbot.orgdownloads#elementtree>.
 
    __Invoke the command__
 
@@ -89,7 +89,8 @@ logfile=/tmp/supervisord.log ..
 
  **add config:**
 
-```[program:coinect-bot]
+```
+[program:coinect-bot]
 command=<command here>
 directory=<path here>
 autostart=<true/false>
