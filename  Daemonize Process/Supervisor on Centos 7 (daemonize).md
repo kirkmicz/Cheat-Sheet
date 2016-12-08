@@ -1,53 +1,53 @@
-#INSTALL SUPERVISORD ON CENTOS 7
+#Install supervisord on CentOS 7
+
+---
+
+#####1. Update Repo
+
+`sudo yum -y update`
+
+#####2. Install Supervisor
+
+######Method 1
+
+`sudo easy_install supervisor`
+
+######Method 2
+
+Download the following using wget
+
+[python setup tools]
+
+[meld3]
+
+[elementtree]
+
+[python setup tools]: <http://pypi.python.org/pypi/setuptools>
+[meld3]: <http://www.plope.com/software/meld3/>
+[elementtree]: <http://effbot.org/downloads#elementtree>
+
+then invoke this command
+
+`python setup.py install`
+
+and run supervisord
+
+`sudo supervisord`
+
+######Method 3
+Install supervisord via pip
+
+`pip install supervisor`
 
 
-##Setup
-
-###1. Update Repo
-
- * If you have access to the root
-
-   `sudo yum -y update`
-
-###2. Install Supervisor :
-
-  * With Internet and Setup tools
-
-    `sudo easy_install supervisor`
-
-  * With Internet but without Setup tools you need to have root permision to invoke this command
-
-    `python setup.py install`
-
-
-  * Without Internet
-
-    __Need to Download__
-
-    * setuptools (latest) from <http://pypi.python.org/pypi/setuptools>.
-    * meld3 (latest) from <http://www.plope.com/software/meld3/>.
-    * elementtree (latest) from <http://effbot.orgdownloads#elementtree>.
-
-   __Invoke the command__
-
-   `python setup.py install`
-
-   __Run the Supervisor__
-
-    `sudo supervisord`
-
- * Via PiP
-
-       `pip install supervisor`
-
-
-###3. Checking If The Supervisor is install correctly
+#####3. Checking If The Supervisor is install correctly
 
 `echo_supervisord_conf`
 
- **Result :**
+*sample result*
 
-```; Sample supervisor config file.
+```
+; Sample supervisor config file.
 ;
 ; For more information on the config file, please see:
 ; http://supervisord.org/configuration.html
@@ -79,15 +79,15 @@ logfile=/tmp/supervisord.log ..
 ;files = relative/directory/*.ini
 ```
 
-###4. Creating Configuration File
+#####4. Creating Configuration File
 
- `sudo echo_supervisord_conf > /etc/supervisord.conf`
+ `sudo echo_supervisord_conf > /your/path/supervisord.conf`
 
-###5. Adding the program to configuration
+#####5. Adding the program to configuration
 
- `sudo vi /etc/supervisord.conf`
+`sudo vim /etc/supervisord.conf`
 
- **add config:**
+*add config to the lower part of the content*
 
 ```
 [program:coinect-bot]
@@ -101,7 +101,7 @@ stderr_logfile=<path to error logs>
 stdout_logfile=<path to output logs>
 ```
 
-###6. Running the supervisor
+#####6. Running the supervisor
 
 `sudo supervisord`
 
@@ -109,14 +109,19 @@ or
 
 `sudo supervisorctl`
 
-###7. Supervisorctl commands:
+#####7. Supervisorctl commands:
 
 
-* `sudo supervisorctl reread` : Re-read for checking the update of the config.
-* `sudo supervisorctl update` : Update for stop and updating the process.
-* `sudo supervisorctl reload` : Re-load for reloading the cron process.
-* `sudo supervisorctl status` : Status of all running application.
-* `sudo supervisorctl stop all` : Kill all services running in the server.
+`sudo supervisorctl reread` : Re-read for checking the update of the config.
+
+
+`sudo supervisorctl update` : Update for stop and updating the process.
+
+`sudo supervisorctl reload` : Re-load for reloading the cron process.
+
+`sudo supervisorctl status` : Status of all running application.
+
+`sudo supervisorctl stop all` : Kill all services running in the server.
 
 or
 
