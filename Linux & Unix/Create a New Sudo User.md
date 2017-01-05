@@ -16,9 +16,9 @@
 
   `$ usermod -aG wheel <username>`
 
----
 
-**Remove prompting password when executing command with `sudo`**
+
+## Remove prompting password when executing command with `sudo`
 
 * Log in to your server as the root user
 
@@ -39,9 +39,7 @@
     %wheel  ALL=(ALL)       NOPASSWD: ALL
   ```
 
----
-
-**Enable ssh access to user**
+## Enable ssh access to user
 
 * Generate key pair
 
