@@ -1,4 +1,4 @@
-# Create a New Sudo User
+## Create a New Sudo User
 
 * Log in to your server as the root user
 
@@ -108,3 +108,4 @@
 * restart sshd
 
   `sudo systemctl restart sshd.service`
+
