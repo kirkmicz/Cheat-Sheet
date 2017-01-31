@@ -52,7 +52,7 @@
 
 * Create `authorized_keys` file inside `.ssh` folder if not exist
 
-  `sudo touch authorized_keys`
+  `sudo touch .ssh/authorized_keys`
 
   Open `authorized_keys` and paste your `public_key`.
 
