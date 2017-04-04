@@ -107,3 +107,7 @@ You can uninstall the Docker software with `yum`.
 	`rm -rf /var/lib/docker`
 	
 4. Locate and delete any user-created configuration files
+
+5. If you want to run docker without `sudo`
+
+	`sudo chown <username>:docker /var/run/docker.sock`
