@@ -16,10 +16,4 @@
 
 Then reboot the system.
 
-
-
-
-![alt text](https://avatars3.githubusercontent.com/u/6651513?v=3&s=400 "Kirkmicz")
-
-
 *Thats it.. Thanks!*
