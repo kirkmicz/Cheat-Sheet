@@ -1,94 +1,25 @@
 #Install supervisord on CentOS 7
 
-###Update Repo
+**Update Repo**
 
-`sudo yum -y update`
+`sudo yum update -y`
 
-**Install Supervisor**
+**Install pip**
 
-**Method 1**
+`sudo yum -y install python-pip`
 
-`sudo easy_install supervisor`
-
-**Method 2**
-
-Download the following using wget
-
-[python setup tools]
-
-[meld3]
-
-[elementtree]
-
-[python setup tools]: <http://pypi.python.org/pypi/setuptools>
-[meld3]: <http://www.plope.com/software/meld3/>
-[elementtree]: <http://effbot.org/downloads#elementtree>
-
-then invoke this command
-
-`python setup.py install`
-
-and run supervisord
-
-`sudo supervisord`
-
-**Method 3**
-Install supervisord via pip
+**Install supervisord via pip**
 
 `pip install supervisor`
 
+**Copy config file to /etc**
 
-###3. Checking If The Supervisor is install correctly
+`sudo echo_supervisord_conf > /etc/supervisord.conf`
 
-`echo_supervisord_conf`
-
-*sample result*
-
-```
-; Sample supervisor config file.
-;
-; For more information on the config file, please see:
-; http://supervisord.org/configuration.html
-;
-; Notes:
-;  - Shell expansion ("~" or "$HOME") is not supported.  Environment
-;    variables can be expanded using this syntax: "%(ENV_HOME)s".
-;  - Comments must have a leading space: "a=b ;comment" not "a=b;comment".
-
-[unix_http_server]
-file=/tmp/supervisor.sock   ; (the path to the socket file)
-;chmod=0700                 ; socket file mode (default 0700)
-;chown=nobody:nogroup       ; socket file uid:gid owner
-;username=user              ; (default is no username (open server))
-;password=123               ; (default is no password (open server))
-
-;[inet_http_server]         ; inet (TCP) server disabled by default
-;port=127.0.0.1:9001        ; (ip_address:port specifier, *:port for all iface)
-;username=user              ; (default is no username (open server))
-;password=123               ; (default is no password (open server))
-
-[supervisord]
-logfile=/tmp/supervisord.log ..
-
-...
-......
-
-;[include]
-;files = relative/directory/*.ini
-```
-
-**Creating Configuration File**
-
- `sudo echo_supervisord_conf > /your/path/supervisord.conf`
-
-**Adding the program to configuration**
-
-`sudo vim /etc/supervisord.conf`
-
-*add config to the lower part of the content*
+**Add your own configuration to the bottom part of supervisord.conf**
 
 ```
-[program:coinect-bot]
+[program:program-name]
 command=<command here>
 directory=<path here>
 autostart=<true/false>
@@ -99,36 +30,38 @@ stderr_logfile=<path to error logs>
 stdout_logfile=<path to output logs>
 ```
 
-**6. Running the supervisor**
+**Start supervisord**
 
-`sudo supervisord`
+`sudo supervisord -c /etc/supervisord.conf`
 
-or
+*note:*
 
-`sudo supervisorctl`
+```
+If you encounter like this error:
 
-**7. Supervisorctl commands:**
+Error: Another program is already listening on a port that one of our HTTP servers is configured to use.  Shut this program down first before starting supervisord.
+```
 
+*Just kill already running supervisord*
 
-`sudo supervisorctl reread` : Re-read for checking the update of the config.
+```
+$ ps -ef | grep supervisord
 
+root   2503  1  0 Nov19 ?  00:03:23 /usr/bin/python /usr/bin/supervisord
+root   21337 2556  0 18:15 pts/8   00:00:00 grep --color=auto supervisord
 
-`sudo supervisorctl update` : Update for stop and updating the process.
+$ kill -s SIGTERM 2503 // to kill 
+```
 
-`sudo supervisorctl reload` : Re-load for reloading the cron process.
+**Apply your configuration**
 
-`sudo supervisorctl status` : Status of all running application.
+```
+sudo supervisorctl reread
+sudo supervisorctl update
+sudo supervisorctl reload
+```
 
-`sudo supervisorctl stop all` : Kill all services running in the server.
+**Kill all services**
 
-or
+`sudo supervisorctl stop all`
 
-`sudo supervisorctl`
-
-`supervisor> reread` : read all for checking the update of the config.
-
-`supervisor> update` : stop and update the configs.
-
-`supervisor> reload` : restarting all running configs.
-
-`supervisor> stop all` : stop all running configs and exit in **supervisorctl**.
