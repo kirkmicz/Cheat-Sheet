@@ -1,18 +1,16 @@
 #Install supervisord on CentOS 7
 
----
-
-#####1. Update Repo
+###Update Repo
 
 `sudo yum -y update`
 
-#####2. Install Supervisor
+**Install Supervisor**
 
-######Method 1
+**Method 1**
 
 `sudo easy_install supervisor`
 
-######Method 2
+**Method 2**
 
 Download the following using wget
 
@@ -34,13 +32,13 @@ and run supervisord
 
 `sudo supervisord`
 
-######Method 3
+**Method 3**
 Install supervisord via pip
 
 `pip install supervisor`
 
 
-#####3. Checking If The Supervisor is install correctly
+###3. Checking If The Supervisor is install correctly
 
 `echo_supervisord_conf`
 
@@ -79,11 +77,11 @@ logfile=/tmp/supervisord.log ..
 ;files = relative/directory/*.ini
 ```
 
-#####4. Creating Configuration File
+**Creating Configuration File**
 
  `sudo echo_supervisord_conf > /your/path/supervisord.conf`
 
-#####5. Adding the program to configuration
+**Adding the program to configuration**
 
 `sudo vim /etc/supervisord.conf`
 
@@ -101,7 +99,7 @@ stderr_logfile=<path to error logs>
 stdout_logfile=<path to output logs>
 ```
 
-#####6. Running the supervisor
+**6. Running the supervisor**
 
 `sudo supervisord`
 
@@ -109,7 +107,7 @@ or
 
 `sudo supervisorctl`
 
-#####7. Supervisorctl commands:
+**7. Supervisorctl commands:**
 
 
 `sudo supervisorctl reread` : Re-read for checking the update of the config.
