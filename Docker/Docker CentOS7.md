@@ -1,6 +1,6 @@
-#Docker requires a 64-bit OS and version 3.10 or higher of the Linux kernel.
+# Docker requires a 64-bit OS and version 3.10 or higher of the Linux kernel.
 
-###Prerequisites###
+### Prerequisites ###
 
 **Check the current kernel version to your terminal**
 
@@ -8,11 +8,11 @@
 
 **Result something like this**
 
-3.10.0-327.36.3.el7.x86_64
+`3.10.0-327.36.3.el7.x86_64`
 
 --
 
-###Install with yum###
+### Install with yum ###
 
 **Create a file using vim or any editor**
 
@@ -78,7 +78,7 @@ sudo systemctl enable docker
 
 --
 
-###Uninstall###
+### Uninstall ###
 
 You can uninstall the Docker software with yum.
 
