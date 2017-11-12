@@ -1,53 +1,49 @@
-Docker CentOS7
-=======
+#Docker requires a 64-bit OS and version 3.10 or higher of the Linux kernel.
+
 ###Prerequisites###
-Docker requires a 64-bit OS and version 3.10 or higher of the Linux kernel.
 
-Check the current kernel version to your terminal
+**Check the current kernel version to your terminal**
 
-`$ uname -r`
+`uname -r`
 
-Result something like this
+**Result something like this**
 
-`3.10.0-327.36.3.el7.x86_64`
+3.10.0-327.36.3.el7.x86_64
 
 --
 
 ###Install with yum###
 
-1. Log into your machine as a user with sudo or root privileges.
+**Create a file using vim or any editor**
 
-2. Update the yum packages
+`sudo vim /etc/yum.repos.d/docker.repo`
 
-	`sudo yum update`
+**then add this lines in your docker.repo**
 
-3. Add yum repo
-
-	```
-sudo tee /etc/yum.repos.d/docker.repo <<-'EOF'
+```
 [dockerrepo]
 name=Docker Repository
 baseurl=https://yum.dockerproject.org/repo/main/centos/7/
 enabled=1
 gpgcheck=1
 gpgkey=https://yum.dockerproject.org/gpg
-EOF
 ```
 
-4. Install the Docker package
+**Install the Docker package**
 
-	`sudo yum install docker-engine`
+`sudo yum install docker-engine`
 	
-5. Enable the service
+**Enable the service**
 
-	`sudo systemctl enable docker.service`
+`sudo systemctl enable docker.service`
 
-6. Start the Docker daemon
+**Start the Docker daemon**
 
-	`sudo systemctl start docker`
+`sudo systemctl start docker`
 
-7. Verify docker is installed correctly by running a test image in a container
-	```
+**Verify docker is installed correctly by running a test image in a container**
+
+```
 sudo docker run --rm hello-world
 
  Unable to find image 'hello-world:latest' locally
@@ -75,39 +71,35 @@ sudo docker run --rm hello-world
 
  For more examples and ideas, visit:
   https://docs.docker.com/engine/userguide/  
+Start the docker daemon at boot
+
+sudo systemctl enable docker
 ```
 
-8. Start the docker daemon at boot
-
-	`sudo systemctl enable docker`
-	
 --
 
 ###Uninstall###
 
+You can uninstall the Docker software with yum.
 
-You can uninstall the Docker software with `yum`.
+**List the installed Docker packages**
 
-1. List the installed Docker packages
-	
-	`$ yum list installed | grep docker`
-	
-	result: 
-	
-	`docker-engine.x86_64     1.7.1-0.1.el7@/docker-engine-1.7.1-0.1.el7.x86_64`
+`yum list installed | grep docker`
 
-2. Remove the package
+**result:**
 
-	`sudo yum -y remove docker-engine.x86_64`
-	
-	This command does not remove images, containers, volumes, or user-created configuration files on your host.
-	
-3. To delete all images, containers, and volumes, run the following command
+`docker-engine.x86_64 1.7.1-0.1.el7@/docker-engine-1.7.1-0.1.el7.x86_64`
 
-	`rm -rf /var/lib/docker`
-	
-4. Locate and delete any user-created configuration files
+**Remove the package**
 
-5. If you want to run docker without `sudo`
+`sudo yum -y remove docker-engine.x86_64`
 
-	`sudo chown <username>:docker /var/run/docker.sock`
+>This command does not remove images, containers, volumes, or user-created configuration files on your host. To delete all images, containers, and volumes, run the following command
+
+`rm -rf /var/lib/docker`
+
+Locate and delete any user-created configuration files
+
+> If you want to run docker without sudo
+
+`sudo chown <username>:docker /var/run/docker.sock`
