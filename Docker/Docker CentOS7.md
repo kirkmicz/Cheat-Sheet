@@ -43,9 +43,9 @@ gpgkey=https://yum.dockerproject.org/gpg
 
 **Verify docker is installed correctly by running a test image in a container**
 
-```
-sudo docker run --rm hello-world
+`sudo docker run --rm hello-world`
 
+```
  Unable to find image 'hello-world:latest' locally
  latest: Pulling from library/hello-world
  c04b14da8d14: Pull complete
@@ -71,10 +71,11 @@ sudo docker run --rm hello-world
 
  For more examples and ideas, visit:
   https://docs.docker.com/engine/userguide/  
-Start the docker daemon at boot
-
-sudo systemctl enable docker
 ```
+
+**Start the docker on boot**
+
+`sudo systemctl enable docker`
 
 --
 
