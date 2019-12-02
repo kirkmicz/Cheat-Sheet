@@ -2,8 +2,6 @@
 
 # SQUID + SQUID GUARD TRANSPARENT SERVER (RASPBERRY PI 4)
 
----
-
 **REQUIREMENTS**
 - Raspbian Buster Lite (OS) installed
 - Download latest [Squid] [1] source.
