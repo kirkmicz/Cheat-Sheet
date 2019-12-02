@@ -17,15 +17,15 @@ You have Raspian installed on your Pi 4 and that its primary LAN `eth0` is confi
 
 Update repo and upgrade apps already installed from the server.
 
-`apt update -y && apt upgrade -y`
+`$ apt update -y && apt upgrade -y`
 
 Install dnsmasq
 
-`apt install dnsmasq -y`
+`$apt install dnsmasq -y`
 
 By default dnsmasq is running automatically after installed, Stop it for now.
 
-`systemctl stop dnsmasq`
+`$ systemctl stop dnsmasq`
 
 Set a static IP address for the second ethernet connection `eth1`. Edit `/etc/dhcpcd.conf `
 
@@ -39,8 +39,8 @@ interface eth1
 Back-up and configure `dnsmasq`
 
 ```
-mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig
-vim /etc/dnsmasq.conf
+$ mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig
+$ vim /etc/dnsmasq.conf
 ```
 
 Add this lines:
@@ -54,11 +54,11 @@ dhcp-range=192.168.7.100,192.168.7.120,255.255.255.0,24h
 
 Now start dnsmasq
 
-`systemctl start dnsmasq`
+`$ systemctl start dnsmasq`
 
 You can even check the connected clients
 
-`cat /var/lib/misc/dnsmasq.leases`
+`$ cat /var/lib/misc/dnsmasq.leases`
 
 IP Forwarding: Edit `/etc/sysctl.conf` and this add line (for persistence)
 
@@ -66,11 +66,11 @@ IP Forwarding: Edit `/etc/sysctl.conf` and this add line (for persistence)
 
 Activate forwarding
 
-`sysctl -w net.ipv4.ip_forward=1`
+`$ sysctl -w net.ipv4.ip_forward=1`
 
 Add a masquerade for outbound traffic on eth0
 
-`iptables -t nat -A  POSTROUTING -o eth0 -j MASQUERADE`
+`$ iptables -t nat -A  POSTROUTING -o eth0 -j MASQUERADE`
 
 ## Setting up SQUID
 
@@ -79,14 +79,14 @@ Assuming you've downloaded `squid-4.6.tar.gz`
 Extract the file and go to the extracted directory
 
 ```
-tra zxf squid-4.6.tar.gz
-cd squid-4.6
+$ tra zxf squid-4.6.tar.gz
+$ cd squid-4.6
 ```
 
 Configure squid
 
 ```
-./configure --enable-ssl --with-openssl --enable-icmp
+$ ./configure --enable-ssl --with-openssl --enable-icmp
 ```
 
 ***Note:*** By default squid will be installed in `/usr/local/squid/` directory. If you want to change the destination set the prefix properly.
@@ -94,15 +94,15 @@ Configure squid
 and then
 
 ```
-make
-make install
+$ make
+$ make install
 ```
 
 Go to squid directory, back-up and, setting up configuration for `squid.conf`
 
 ```
-cp /usr/local/squid/etc/squid.conf /usr/local/squid/etc/squid.conf.orig
-vim etc/squid.conf
+$ cp /usr/local/squid/etc/squid.conf /usr/local/squid/etc/squid.conf.orig
+$ vim etc/squid.conf
 ```
 
 Now before modifying `squid.conf` we need to generate certificates.
@@ -127,7 +127,7 @@ myCA.der  myCA.pem
 Change `ssl_cert` directory ownership
 
 ```
-chown -R proxy:proxy ssl_cert/
+$ chown -R proxy:proxy ssl_cert/
 ```
 
 Now we will modify the `/usr/local/squid/etc/squid.conf`
@@ -169,7 +169,7 @@ http_access allow localnet
 Start the squid application
 
 ```
-/usr/local/squid/sbin/squid
+$ /usr/local/squid/sbin/squid
 ```
 
 Check if the ports are open
@@ -193,3 +193,17 @@ $ /usr/local/squid/var/logs
 
 access.log  cache.log
 ```
+
+Add firewall rules so the data can pass by back and forth.
+
+```
+$ iptables -A INPUT -j ACCEPT -p tcp --dport 3128 -m comment --comment "squid http proxy"
+$ iptables -A INPUT -j ACCEPT -p tcp --dport 3129 -m comment --comment "squid https proxy"
+
+$ iptables -t nat -A PREROUTING -s 192.168.7.0/24 -p tcp --dport 80 -m comment --comment "transparent http proxy" -j DNAT --to-destination 192.168.5.13:3128
+$ iptables -t nat -A PREROUTING -s 192.168.7.0/24 -p tcp --dport 443 -m comment --comment "transparent https proxy" -j DNAT --to-destination 192.168.5.13:3129
+```
+
+***Where:*** `192.168.5.13 (eth0)` is the network on which proxy/squid is running also your default net interface and `192.168.7.0 (eth1)` is the secondary network interface connection on which client will connect.
+
+Now in your client machine import `myCA.der` in your browser so the proxy can validate client requests.
