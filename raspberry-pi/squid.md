@@ -1,6 +1,8 @@
 [1]: http://www.squid-cache.org/Versions/        "Squid"
 
-# SQUID + SQUID GUARD TRANSPARENT SERVER (RASPBERRY PI 4)
+# SQUID + SQUID GUARD TRANSPARENT PROXY SERVER (RASPBERRY PI 4)
+
+---
 
 **REQUIREMENTS**
 - Raspbian Buster Lite (OS) installed
@@ -69,3 +71,125 @@ Activate forwarding
 Add a masquerade for outbound traffic on eth0
 
 `iptables -t nat -A  POSTROUTING -o eth0 -j MASQUERADE`
+
+## Setting up SQUID
+
+Assuming you've downloaded `squid-4.6.tar.gz`
+
+Extract the file and go to the extracted directory
+
+```
+tra zxf squid-4.6.tar.gz
+cd squid-4.6
+```
+
+Configure squid
+
+```
+./configure --enable-ssl --with-openssl --enable-icmp
+```
+
+***Note:*** By default squid will be installed in `/usr/local/squid/` directory. If you want to change the destination set the prefix properly.
+
+and then
+
+```
+make
+make install
+```
+
+Go to squid directory, back-up and, setting up configuration for `squid.conf`
+
+```
+cp /usr/local/squid/etc/squid.conf /usr/local/squid/etc/squid.conf.orig
+vim etc/squid.conf
+```
+
+Now before modifying `squid.conf` we need to generate certificates.
+
+```
+mkdir /usr/local/squid/etc/ssl_cert
+cd /usr/local/squid/etc/ssl_cert
+
+openssl req -new -newkey rsa:2048 -sha256 -days 365 -nodes -x509 -extensions v3_ca -keyout myCA.pem -out myCA.pem
+
+openssl x509 -in myCA.pem -outform DER -out myCA.der
+```
+
+After all of this command executed you must see two present files.
+
+```
+$ ls
+
+myCA.der  myCA.pem
+```
+
+Change `ssl_cert` directory ownership
+
+```
+chown -R proxy:proxy ssl_cert/
+```
+
+Now we will modify the `/usr/local/squid/etc/squid.conf`
+
+Change squid application user as `proxy`
+
+Add this line at the beginning of the file.
+
+```
+cache_effective_user proxy
+cache_effective_group proxy
+```
+
+next change this line from this
+
+```
+# Squid normally listens to port 3128
+http_port 3128
+```
+
+to this
+
+```
+http_port 8080
+http_port 3128 intercept
+https_port 3129 intercept ssl-bump cert=/usr/local/squid/etc/ssl_cert/myCA.pem generate-host-certificates=on dynamic_cert_mem_cache_size=4mb
+
+sslcrtd_program /usr/lib/squid/ssl_crtd -s /var/lib/ssl_db -M 4MB
+acl step1 at_step SslBump1
+ssl_bump peek step1
+ssl_bump bump all
+```
+You might consider also allowing access from your local network, uncomment this line by just removing `#`
+
+```
+http_access allow localnet
+```
+
+Start the squid application
+
+```
+/usr/local/squid/sbin/squid
+```
+
+Check if the ports are open
+
+```
+$ netstat -tuplen | grep squid
+
+tcp6       0      0 :::3128                 :::*                    LISTEN      0          13175      574/(squid-1)
+tcp6       0      0 :::3129                 :::*                    LISTEN      0          14853      578/(squid-1)
+tcp6       0      0 :::8080                 :::*                    LISTEN      0          14851      578/(squid-1)
+udp        0      0 0.0.0.0:33533           0.0.0.0:*                           13         10200      574/(squid-1)
+udp        0      0 0.0.0.0:35828           0.0.0.0:*                           13         13174      578/(squid-1)
+udp6       0      0 :::35722                :::*                                13         10199      574/(squid-1)
+udp6       0      0 :::43137                :::*                                13         13173      578/(squid-1)
+```
+
+For the `status` you may also to check the logs
+
+```
+$ /usr/local/squid/var/logs
+
+access.log  cache.log
+```
