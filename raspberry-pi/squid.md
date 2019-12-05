@@ -328,5 +328,5 @@ Then restart squid
 systemctl restart squid
 ```
 
-For more configuration please visit [SquidGuard] (http://www.squidguard.org/Doc/examples.html).
+*For more configuration please visit [SquidGuard](http://www.squidguard.org/Doc/examples.html).*
 
