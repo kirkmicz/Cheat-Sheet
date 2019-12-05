@@ -1,13 +1,10 @@
-[1]: http://www.squid-cache.org/Versions/        "Squid"
-[2]: http://www.squidguard.org/Doc/examples.html "SquidGuard"
-
 # SQUID + SQUID GUARD TRANSPARENT PROXY SERVER (RASPBERRY PI 4)
 
 ---
 
 **REQUIREMENTS**
 - Raspbian Buster Lite (OS) installed
-- Download latest [Squid] [1] source.
+- Download latest [Squid](http://www.squid-cache.org/Versions/) source.
 - USB 3.0 TO Ethernet Adapter (atleast 1000 MBPS GIGABIT)
 
 **ASSUMPTION**
@@ -332,5 +329,5 @@ systemctl restart squid
 ```
 
 
-*For more configuration please visit [SquidGuard] [2]*.
+*For more configuration please visit [SquidGuard] (http://www.squidguard.org/Doc/examples.html)*.
 
