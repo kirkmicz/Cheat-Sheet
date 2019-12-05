@@ -1,4 +1,5 @@
 [1]: http://www.squid-cache.org/Versions/        "Squid"
+[2]: http://www.squidguard.org/Doc/examples.html "SquidGuard"
 
 # SQUID + SQUID GUARD TRANSPARENT PROXY SERVER (RASPBERRY PI 4)
 
@@ -98,6 +99,32 @@ $ make
 $ make install
 ```
 
+Copy squid service from the system and change parameters
+
+```
+cp tools/systemd/squid.service /lib/systemd/system/
+```
+
+and change parameters of `/lib/systemd/system/squid.service`
+
+```
+[Unit]
+Description=Squid Web Proxy Server
+Documentation=man:squid(8)
+After=network.target network-online.target nss-lookup.target
+
+[Service]
+Type=forking
+PIDFile=/usr/local/squid/var/run/squid.pid
+ExecStartPre=/usr/local/squid/sbin/squid --foreground -z
+ExecStart=/usr/local/squid/sbin/squid -sYC
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target
+```
+
 Go to squid directory, back-up and, setting up configuration for `squid.conf`
 
 ```
@@ -165,11 +192,12 @@ You might consider also allowing access from your local network, uncomment this 
 ```
 http_access allow localnet
 ```
+Now close and save the file.
 
 Start the squid application
 
 ```
-$ /usr/local/squid/sbin/squid
+$ systemctl start squid
 ```
 
 Check if the ports are open
@@ -207,3 +235,102 @@ $ iptables -t nat -A PREROUTING -s 192.168.7.0/24 -p tcp --dport 443 -m comment 
 ***Where:*** `192.168.5.13 (eth0)` is the network on which proxy/squid is running also your default net interface and `192.168.7.0 (eth1)` is the secondary network interface connection on which client will connect.
 
 Now in your client machine import `myCA.der` in your browser so the proxy can validate client requests.
+
+## Setting up Squid Guard
+
+Install `squidguard`
+
+```
+$ apt install squidguard -y
+```
+
+### Filter domains and urls
+
+SquidGuard used Berkeley as their database where filtered domains or urls stored.
+
+```
+$ cd /var/lib/squidguard/db
+
+$ ls
+porn
+```
+
+Inside `/var/lib/squidguard/db` where the list of domains or urls are located
+
+```
+porn
+├── domain
+└── urls
+```
+
+```
+$ cat domain
+
+xxx.com
+superXxX.com
+```
+
+```
+$ cat urls
+
+xxx.com/brunette
+superXxX.com/blonde
+```
+
+***Note:*** Those are more likely the proper categorizing and way of declaring domains and urls to filter.
+
+### Modifying Squid Guard configuration
+
+```
+# Go to squidguard directory
+$ cd /etc/squidguard
+
+# back-up original configuration
+$ cp squidGuard.conf squidGuard.conf.orig
+
+# open squidGuard.conf
+vim squidGuard.conf
+```
+
+Make sure the `dbhome` are pointing where the database are located. And leave `logdir` as it is.
+
+```
+dbhome /var/lib/squidguard/db
+logdir /var/log/squidguard
+```
+
+`dest` will be handle group/list of blacklist (it can be also your whitelist) for example.
+```
+dest porn {
+  domainlist  porn/domains
+  urllist     porn/urls
+}
+```
+
+`acl` will be sort either you gonna ban or exclude list of domains/url which decalre with `dest`.
+```
+acl {
+  default {
+    pass   !porn all
+    redirect  http://google.com
+  }
+}
+```
+
+After gathering all needed configuration save and close the file.
+
+Compile and create an index for the list which we created earlier: (`/var/lib/squidguard/db`)
+
+```
+$ squidGuard -C all
+```
+
+Then restart squid
+
+```
+systemctl restart squid
+```
+
+
+*For more configuration please visit [SquidGuard] [2]*.
+
